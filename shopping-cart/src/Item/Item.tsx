@@ -25,6 +25,8 @@ export const Item = ({ item, handleAddToCart }: Props) => {
 	);
 };
 
+// TUTORIAL DOES IT THIS WAY, BUT THIS ISN'T CONSIDERED BEST PRACTICE ANYMORE!!
+
 // const Item: React.FC<Props> = ({ item, handleAddToCart }) => (
 // 	<Wrapper>
 // 		<img src={item.image} alt={item.title} />
