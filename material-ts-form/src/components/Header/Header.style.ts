@@ -2,8 +2,8 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles(() =>
 	createStyles({
-		class: {
-      
-    },
+		wrapper: {
+			backgroundColor: '#fff',
+		},
 	})
 );
