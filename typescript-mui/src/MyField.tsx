@@ -7,5 +7,13 @@ export const MyField = ({
 	placeholder,
 	field,
 }: FieldProps & TextFieldProps) => {
-	return <TextField label={placeholder} placeholder={placeholder} {...field} />;
+	return (
+		<TextField
+			id='outlined-basic'
+			label={placeholder}
+			placeholder={placeholder}
+			{...field}
+			variant='outlined'
+		/>
+	);
 };
