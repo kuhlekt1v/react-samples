@@ -17,6 +17,18 @@ export const theme = createTheme({
 			dark: '#b24d2c',
 		},
 	},
+	overrides: {
+		MuiAppBar: {
+			root: {
+				transform: 'translateZ(0)',
+			},
+		},
+	},
+	props: {
+		MuiIconButton: {
+			disableRipple: true,
+		},
+	},
 });
 
 export const useStyles = makeStyles(() =>

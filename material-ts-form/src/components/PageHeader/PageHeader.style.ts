@@ -17,6 +17,9 @@ export const useStyles = makeStyles((theme: Theme) =>
 		},
 		pageTitle: {
 			paddingLeft: theme.spacing(4),
+			'& .MuiTypography-subtitle2': {
+				opacity: '0.6',
+			},
 		},
 	})
 );
