@@ -3,6 +3,7 @@ import { Avatar, createStyles, Grid, makeStyles, Paper, Theme, Button, Link, Tex
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { LoginInputs } from '../components/Login/LoginInputs';
 import * as yup from 'yup';
 
 interface IFormProps {
@@ -87,25 +88,11 @@ export const LoginPage = () => {
             <form onSubmit={methods.handleSubmit(formSubmitHandler)}>
               <Grid container spacing={4}>
                 <Grid item xs={12}>
-                  <TextField
-                    label="Username"
-                    variant="outlined"
-                    fullWidth={true}
-                    error={!!methods.formState.errors.username}
-                    helperText={methods.formState.errors.username?.message ?? ''}
-                    {...methods.register('username')}
-                  />
+                  <LoginInputs label="Username" name="username" />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    label="Password"
-                    variant="outlined"
-                    type="password"
-                    fullWidth={true}
-                    error={!!methods.formState.errors.password}
-                    helperText={methods.formState.errors.password?.message ?? ''}
-                    {...methods.register('password')}
-                  />
+                  <LoginInputs label="Password" name="password" />
+                  {/* {...methods.register('password')} */}
                 </Grid>
                 <Grid item xs={12}>
                   <Button

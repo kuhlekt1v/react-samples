@@ -1,6 +1,6 @@
 import { TextField } from '@material-ui/core';
 import React from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 type Props = {
   name: string;
@@ -9,25 +9,18 @@ type Props = {
 
 export const LoginInputs = ({ name, label }: Props) => {
   const {
-    control,
+    register,
     formState: { errors },
   } = useFormContext();
 
   return (
-    <Controller
-      name={name}
-      control={control}
-      defaultValue=""
-      render={({ field }) => (
-        <TextField
-          {...field}
-          label={label}
-          variant="outlined"
-          fullWidth={true}
-          error={!!errors.username}
-          helperText={errors.username ? errors.username?.message : ''}
-        />
-      )}
-    ></Controller>
+    <TextField
+      label={label}
+      variant="outlined"
+      fullWidth={true}
+      error={!!errors[name]}
+      helperText={errors[name]?.message ?? ''}
+      {...register(name)}
+    />
   );
 };
