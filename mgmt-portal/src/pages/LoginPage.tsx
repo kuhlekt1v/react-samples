@@ -4,16 +4,15 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { LoginInputs } from '../components/Login/LoginInputs';
 
-interface IFormInputs {
+interface IFormProps {
   username: string;
   password: string;
 }
 
 const schema = yup.object().shape({
-  username: yup.string().required(),
-  password: yup.string().required(),
+  username: yup.string().required('Username is required.'),
+  password: yup.string().required('Password is required.'),
 });
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -62,16 +61,12 @@ const useStyles = makeStyles((theme: Theme) =>
 export const LoginPage = () => {
   const classes = useStyles();
 
-  const methods = useForm<IFormInputs>({
+  const methods = useForm<IFormProps>({
     resolver: yupResolver(schema),
   });
 
-  const formSubmitHandler: SubmitHandler<IFormInputs> = ({ username, password }: IFormInputs) => {
+  const formSubmitHandler: SubmitHandler<IFormProps> = ({ username, password }: IFormProps) => {
     console.log(`Username: ${username}, Password: ${password}`);
-
-    // Clear fields.
-    username = '';
-    password = '';
   };
 
   return (
@@ -92,11 +87,25 @@ export const LoginPage = () => {
             <form onSubmit={methods.handleSubmit(formSubmitHandler)}>
               <Grid container spacing={4}>
                 <Grid item xs={12}>
-                  {/* <TextField label="Username" variant="outlined" fullWidth={true} /> */}
-                  <LoginInputs name="username" label="Username" />
+                  <TextField
+                    label="Username"
+                    variant="outlined"
+                    fullWidth={true}
+                    error={!!methods.formState.errors.username}
+                    helperText={methods.formState.errors.username?.message ?? ''}
+                    {...methods.register('username')}
+                  />
                 </Grid>
                 <Grid item xs={12}>
-                  <LoginInputs name="password" label="Password" />
+                  <TextField
+                    label="Password"
+                    variant="outlined"
+                    type="password"
+                    fullWidth={true}
+                    error={!!methods.formState.errors.password}
+                    helperText={methods.formState.errors.password?.message ?? ''}
+                    {...methods.register('password')}
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <Button
