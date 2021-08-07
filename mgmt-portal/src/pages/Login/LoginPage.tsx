@@ -1,10 +1,15 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Avatar, createStyles, Grid, makeStyles, Paper, Theme, Button, Link, TextField } from '@material-ui/core';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import React from 'react';
+import { Avatar, Button, Grid, Link, Paper } from '@material-ui/core';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { LoginInputs } from '../components/Login/LoginInputs';
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+
+// Components.
+import { InputRequired } from '../../components/Input/InputRequired';
+import { useStyles } from './LoginPage.style';
+
+// Icons.
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 interface IFormProps {
   username: string;
@@ -15,49 +20,6 @@ const schema = yup.object().shape({
   username: yup.string().required('Username is required.'),
   password: yup.string().required('Password is required.'),
 });
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(4),
-      position: 'absolute',
-      margin: 'auto',
-      width: 400,
-      top: '50%',
-      left: '50%',
-      transform: 'translateY(-50%) translateX(-50%)',
-    },
-    titleBlock: {
-      marginBottom: theme.spacing(1),
-    },
-    title: {
-      fontFamily: '"Nanum Gothic", sans-serif',
-    },
-    avatar: {
-      height: theme.spacing(6),
-      width: theme.spacing(6),
-      backgroundColor: theme.palette.primary.main,
-    },
-    button: {
-      padding: '16px 14px',
-    },
-    link: {
-      fontStyle: 'italic',
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
-      color: theme.palette.primary.light,
-      '&:hover': {
-        cursor: 'pointer',
-        textDecoration: 'none',
-        textAlign: 'center',
-        color: theme.palette.primary.dark,
-      },
-    },
-  }),
-);
 
 export const LoginPage = () => {
   const classes = useStyles();
@@ -88,11 +50,10 @@ export const LoginPage = () => {
             <form onSubmit={methods.handleSubmit(formSubmitHandler)}>
               <Grid container spacing={4}>
                 <Grid item xs={12}>
-                  <LoginInputs label="Username" name="username" />
+                  <InputRequired label="Username" name="username" />
                 </Grid>
                 <Grid item xs={12}>
-                  <LoginInputs label="Password" name="password" />
-                  {/* {...methods.register('password')} */}
+                  <InputRequired label="Password" name="password" type="password" />
                 </Grid>
                 <Grid item xs={12}>
                   <Button

@@ -5,9 +5,10 @@ import { useFormContext } from 'react-hook-form';
 type Props = {
   name: string;
   label: string;
+  type?: string;
 };
 
-export const LoginInputs = ({ name, label }: Props) => {
+export const InputRequired = ({ name, label, type }: Props) => {
   const {
     register,
     formState: { errors },
@@ -16,6 +17,7 @@ export const LoginInputs = ({ name, label }: Props) => {
   return (
     <TextField
       label={label}
+      type={type}
       variant="outlined"
       fullWidth={true}
       error={!!errors[name]}

@@ -3,7 +3,7 @@ import { theme } from './App.style';
 import { ThemeProvider } from '@material-ui/core';
 
 // Components.
-import { LoginPage } from './pages/LoginPage';
+import { LoginPage } from './pages/Login/LoginPage';
 
 const App = () => {
   return (
