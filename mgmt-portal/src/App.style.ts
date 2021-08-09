@@ -22,4 +22,9 @@ export const theme = createTheme({
       },
     },
   },
+  props: {
+    MuiIconButton: {
+      disableRipple: true,
+    },
+  },
 });

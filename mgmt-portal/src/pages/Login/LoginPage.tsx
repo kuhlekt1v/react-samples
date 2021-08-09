@@ -1,6 +1,7 @@
 import React from 'react';
 import { Avatar, Button, Grid, Link, Paper } from '@material-ui/core';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -23,13 +24,15 @@ const schema = yup.object().shape({
 
 export const LoginPage = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const methods = useForm<IFormProps>({
     resolver: yupResolver(schema),
   });
 
-  const formSubmitHandler: SubmitHandler<IFormProps> = ({ username, password }: IFormProps) => {
-    console.log(`Username: ${username}, Password: ${password}`);
+  const formSubmitHandler: SubmitHandler<IFormProps> = async ({ username, password }: IFormProps) => {
+    // Navigate to HomePage if form is valid.
+    history.push('/');
   };
 
   return (
