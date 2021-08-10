@@ -1,18 +1,9 @@
 import React from 'react';
-import {
-  Avatar,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  ButtonBase,
-  Popper,
-  PopperPlacementType,
-  Fade,
-} from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { Avatar, AppBar, Toolbar, IconButton, Typography, ButtonBase, PopperPlacementType } from '@material-ui/core';
 
 // Styles.
-import styled, { StyledComponent } from 'styled-components';
+import styled from 'styled-components';
 import { useStyles } from './Navbar.style';
 
 // Material icons.
@@ -42,17 +33,22 @@ const StyledAccountButton = styled(ButtonBase)`
 
 export const Navbar = () => {
   const classes = useStyles();
+  const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [placement, setPlacement] = React.useState<PopperPlacementType>();
-  const id = open ? 'transitions-popper' : undefined;
 
   const handleSettingsClick = (newPlacement: PopperPlacementType) => (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
-    setPlacement(newPlacement);
     setOpen(!open);
   };
 
+  const handleSettingsClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleSelectedItem = () => {
+    setAnchorEl(null);
+  };
   return (
     <div className={classes.root}>
       <AppBar className={classes.appBar}>
@@ -80,7 +76,12 @@ export const Navbar = () => {
           </div>
         </Toolbar>
       </AppBar>
-      <AccountMenu id={id} open={open} anchorEl={anchorEl} placement={placement} />
+      <AccountMenu
+        open={open}
+        anchorEl={anchorEl}
+        handleClose={handleSettingsClose}
+        handleSelect={handleSelectedItem}
+      />
     </div>
   );
 };

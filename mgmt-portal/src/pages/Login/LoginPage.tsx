@@ -32,7 +32,7 @@ export const LoginPage = () => {
 
   const formSubmitHandler: SubmitHandler<IFormProps> = async ({ username, password }: IFormProps) => {
     // Navigate to HomePage if form is valid.
-    history.push('/');
+    history.push('/home');
   };
 
   return (
