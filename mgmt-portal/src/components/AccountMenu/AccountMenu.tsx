@@ -27,11 +27,11 @@ export const AccountMenu = ({ anchorEl, greeting, handleClose, handleSelect }: P
       getContentAnchorEl={null}
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: -5,
+        horizontal: 'right',
       }}
       transformOrigin={{
         vertical: 'top',
-        horizontal: 'left',
+        horizontal: 'right',
       }}
       style={{ marginTop: 10 }}
     >
