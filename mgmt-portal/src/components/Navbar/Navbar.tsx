@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, AppBar, Toolbar, IconButton, Typography, ButtonBase, PopperPlacementType } from '@material-ui/core';
+import { Avatar, AppBar, Toolbar, IconButton, Typography, PopperPlacementType } from '@material-ui/core';
 
 // Styles.
 import { useStyles, StyledAccountButton } from './Navbar.style';
@@ -12,6 +12,7 @@ import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 // Components
 import { InputSearch } from '../Input/InputSearch';
 import { AccountMenu } from '../AccountMenu/AccountMenu';
+import { theme } from '../../App.style';
 
 export const Navbar = () => {
   const classes = useStyles();
@@ -20,7 +21,7 @@ export const Navbar = () => {
 
   let [greeting, setGreeting] = React.useState<string>('Welcome');
 
-  const handleSettingsClick = (newPlacement: PopperPlacementType) => (event: React.MouseEvent<HTMLElement>) => {
+  const handleSettingsClick = (event: React.MouseEvent<HTMLElement>) => {
     // Get current hour.
     const date = new Date();
     const hour = date.getHours();
@@ -34,18 +35,18 @@ export const Navbar = () => {
       greeting = 'Good Evening';
     }
 
-    setGreeting(greeting);
     setAnchorEl(anchorEl ? null : event.currentTarget);
+    setGreeting(greeting);
     setOpen(!open);
   };
 
-  const handleSettingsClose = () => {
+  const handleCloseMenu = () => {
     setAnchorEl(null);
+    setOpen(false);
   };
 
-  const handleSelectedItem = () => {
-    setAnchorEl(null);
-  };
+  // Close account menu on window resize.
+  window.addEventListener('resize', handleCloseMenu);
 
   return (
     <div className={classes.root}>
@@ -63,7 +64,7 @@ export const Navbar = () => {
             <IconButton aria-label="show messages" className={classes.notifications}>
               <NotificationsNoneIcon />
             </IconButton>
-            <StyledAccountButton onClick={handleSettingsClick('right-start')}>
+            <StyledAccountButton onClick={handleSettingsClick}>
               <Avatar alt="user initial" className={classes.userAvatar}>
                 A
               </Avatar>
@@ -78,8 +79,8 @@ export const Navbar = () => {
         open={open}
         greeting={greeting}
         anchorEl={anchorEl}
-        handleClose={handleSettingsClose}
-        handleSelect={handleSelectedItem}
+        handleClose={handleCloseMenu}
+        handleSelect={handleCloseMenu}
       />
     </div>
   );

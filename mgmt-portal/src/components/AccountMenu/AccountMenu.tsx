@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyles, StyledMenuItem } from './AccountMenu.style';
 import { icons, AccountMenuItems } from './AccountMenuItems';
-import { Menu, MenuList, ListItemText, ListItemIcon, Typography, Divider, Link } from '@material-ui/core';
+import { Menu, MenuList, ListItemText, ListItemIcon, Typography, Divider, Link, Popper } from '@material-ui/core';
 
 // https://berrydashboard.io/user/account-profile/profile1 for reference.
 
@@ -9,7 +9,7 @@ type Props = {
   open: boolean;
   greeting: string;
   anchorEl: HTMLElement | null;
-  handleClose: ((event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void) | undefined;
+  handleClose: ((event: {}, reason: 'backdropClick' | 'escapeKeyDown' | 'resize') => void) | undefined;
   handleSelect: React.MouseEventHandler<HTMLLIElement> | undefined;
 };
 
@@ -26,13 +26,14 @@ export const AccountMenu = ({ anchorEl, greeting, handleClose, handleSelect }: P
       elevation={2}
       getContentAnchorEl={null}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: -15,
+        vertical: 'bottom',
+        horizontal: -5,
       }}
       transformOrigin={{
         vertical: 'top',
-        horizontal: 'right',
+        horizontal: 'left',
       }}
+      style={{ marginTop: 10 }}
     >
       <div className={classes.menuContainer}>
         <div className={classes.sectionTop}>
