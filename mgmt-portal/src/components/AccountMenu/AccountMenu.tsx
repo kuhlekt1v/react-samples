@@ -1,61 +1,21 @@
 import React from 'react';
-import {
-  makeStyles,
-  createStyles,
-  Avatar,
-  withStyles,
-  Theme,
-  Menu,
-  MenuItem,
-  MenuList,
-  ListItemText,
-  ListItemIcon,
-  Typography,
-  Link,
-} from '@material-ui/core';
-
+import { useStyles, StyledMenuItem } from './AccountMenu.style';
 import { icons, AccountMenuItems } from './AccountMenuItems';
+import { Menu, MenuList, ListItemText, ListItemIcon, Typography, Divider, Link } from '@material-ui/core';
 
 // https://berrydashboard.io/user/account-profile/profile1 for reference.
 
 type Props = {
   open: boolean;
+  greeting: string;
   anchorEl: HTMLElement | null;
   handleClose: ((event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void) | undefined;
   handleSelect: React.MouseEventHandler<HTMLLIElement> | undefined;
 };
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& .MuiMenu-list': {
-        padding: theme.spacing(4),
-      },
-    },
-
-    linkText: {
-      color: theme.palette.text.secondary,
-    },
-  }),
-);
-
-const StyledMenuItem = withStyles((theme: Theme) => ({
-  root: {
-    '& .MuiTypography-body1': {
-      fontFamily: "'Montserrat', sans-serif",
-    },
-
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
-}))(MenuItem);
-
-export const AccountMenu = ({ anchorEl, handleClose, handleSelect }: Props) => {
+export const AccountMenu = ({ anchorEl, greeting, handleClose, handleSelect }: Props) => {
   const classes = useStyles();
+
   return (
     <Menu
       id="customized-menu"
@@ -74,32 +34,38 @@ export const AccountMenu = ({ anchorEl, handleClose, handleSelect }: Props) => {
         horizontal: 'right',
       }}
     >
-      <Typography variant="h6" noWrap>
-        Good Morning, <span style={{ fontSize: '1rem' }}>Username</span>
-      </Typography>
-      <hr />
-      <MenuList>
-        {AccountMenuItems.map((item) => {
-          const Icon = icons[item.icon];
-
-          return (
-            <Link
-              key={item.id}
-              href={item.path}
-              style={{ textDecoration: 'none' }}
-              color="inherit"
-              className={classes.linkText}
-            >
-              <StyledMenuItem onClick={handleSelect}>
-                <ListItemIcon>
-                  <Icon />
-                </ListItemIcon>
-                <ListItemText primary={item.label} />
-              </StyledMenuItem>
-            </Link>
-          );
-        })}
-      </MenuList>
+      <div className={classes.menuContainer}>
+        <div className={classes.sectionTop}>
+          <Typography variant="h6" noWrap>
+            <span style={{ fontWeight: 800 }}>{greeting},</span> <span style={{ fontSize: '1rem' }}>Username</span>
+          </Typography>
+          <Typography variant="subtitle2">Administrator</Typography>
+        </div>
+        <Divider variant="middle" />
+        <div className={classes.sectionBottom}>
+          <MenuList>
+            {AccountMenuItems.map((item) => {
+              const Icon = icons[item.icon];
+              return (
+                <Link
+                  key={item.id}
+                  href={item.path}
+                  style={{ textDecoration: 'none' }}
+                  color="inherit"
+                  className={classes.linkText}
+                >
+                  <StyledMenuItem onClick={handleSelect}>
+                    <ListItemIcon>
+                      <Icon />
+                    </ListItemIcon>
+                    <ListItemText primary={item.label} />
+                  </StyledMenuItem>
+                </Link>
+              );
+            })}
+          </MenuList>
+        </div>
+      </div>
     </Menu>
   );
 };

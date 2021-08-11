@@ -1,10 +1,8 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { Avatar, AppBar, Toolbar, IconButton, Typography, ButtonBase, PopperPlacementType } from '@material-ui/core';
 
 // Styles.
-import styled from 'styled-components';
-import { useStyles } from './Navbar.style';
+import { useStyles, StyledAccountButton } from './Navbar.style';
 
 // Material icons.
 import MenuIcon from '@material-ui/icons/Menu';
@@ -15,29 +13,28 @@ import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import { InputSearch } from '../Input/InputSearch';
 import { AccountMenu } from '../AccountMenu/AccountMenu';
 
-const StyledAccountButton = styled(ButtonBase)`
-  &.MuiButtonBase-root {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-between;
-    cursor: default;
-    color: #215977;
-    background-color: #eaf2f6;
-    border-radius: 8px 16px 16px 8px;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    width: 100px;
-  }
-`;
-
 export const Navbar = () => {
   const classes = useStyles();
-  const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
+  let [greeting, setGreeting] = React.useState<string>('Welcome');
+
   const handleSettingsClick = (newPlacement: PopperPlacementType) => (event: React.MouseEvent<HTMLElement>) => {
+    // Get current hour.
+    const date = new Date();
+    const hour = date.getHours();
+
+    // Set AccountMenu greeting message.
+    if (hour < 12) {
+      greeting = 'Good Morning';
+    } else if (hour >= 12 && hour <= 17) {
+      greeting = 'Good Afternoon';
+    } else if (hour >= 17 && hour <= 24) {
+      greeting = 'Good Evening';
+    }
+
+    setGreeting(greeting);
     setAnchorEl(anchorEl ? null : event.currentTarget);
     setOpen(!open);
   };
@@ -49,6 +46,7 @@ export const Navbar = () => {
   const handleSelectedItem = () => {
     setAnchorEl(null);
   };
+
   return (
     <div className={classes.root}>
       <AppBar className={classes.appBar}>
@@ -78,6 +76,7 @@ export const Navbar = () => {
       </AppBar>
       <AccountMenu
         open={open}
+        greeting={greeting}
         anchorEl={anchorEl}
         handleClose={handleSettingsClose}
         handleSelect={handleSelectedItem}

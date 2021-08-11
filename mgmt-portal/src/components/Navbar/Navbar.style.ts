@@ -1,4 +1,22 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import styled from 'styled-components';
+
+export const StyledAccountButton = styled(ButtonBase)`
+  &.MuiButtonBase-root {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    cursor: default;
+    color: #215977;
+    background-color: #eaf2f6;
+    border-radius: 8px 16px 16px 8px;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    width: 100px;
+  }
+`;
 
 export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
