@@ -27,4 +27,7 @@ export const theme = createTheme({
       disableRipple: true,
     },
   },
+  typography: {
+    fontFamily: ['Montserrat', 'sans-serif'].join(','),
+  },
 });

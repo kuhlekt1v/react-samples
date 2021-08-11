@@ -12,16 +12,17 @@ import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 // Components
 import { InputSearch } from '../Input/InputSearch';
 import { AccountMenu } from '../AccountMenu/AccountMenu';
-import { theme } from '../../App.style';
+import { NotificationMenu } from '../NotificationMenu/NotificationMenu';
 
 export const Navbar = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [visibleMenu, setVisibleMenu] = React.useState<string>('');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   let [greeting, setGreeting] = React.useState<string>('Welcome');
 
-  const handleSettingsClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     // Get current hour.
     const date = new Date();
     const hour = date.getHours();
@@ -35,6 +36,7 @@ export const Navbar = () => {
       greeting = 'Good Evening';
     }
 
+    setVisibleMenu(event.currentTarget.id);
     setAnchorEl(anchorEl ? null : event.currentTarget);
     setGreeting(greeting);
     setOpen(!open);
@@ -50,8 +52,10 @@ export const Navbar = () => {
 
   return (
     <div className={classes.root}>
+      {/* Navigation bar. */}
       <AppBar className={classes.appBar}>
         <Toolbar>
+          {/* Title area. */}
           <IconButton edge="start" className={classes.menuButton} aria-label="open drawer">
             <MenuIcon className={classes.largeIcon} />
           </IconButton>
@@ -60,11 +64,21 @@ export const Navbar = () => {
           </Typography>
           <InputSearch placeholder="Search..." />
           <div className={classes.navPadding}></div>
+
+          {/* Action icons. */}
           <div className={classes.actionIcons}>
-            <IconButton aria-label="show messages" className={classes.notifications}>
+            {/* Notifications. */}
+            <IconButton
+              id="notificationMenu"
+              aria-label="show messages"
+              className={classes.notifications}
+              onClick={handleMenuClick}
+            >
               <NotificationsNoneIcon />
             </IconButton>
-            <StyledAccountButton onClick={handleSettingsClick}>
+
+            {/* User settings. */}
+            <StyledAccountButton id="accountMenu" onClick={handleMenuClick}>
               <Avatar alt="user initial" className={classes.userAvatar}>
                 A
               </Avatar>
@@ -75,13 +89,25 @@ export const Navbar = () => {
           </div>
         </Toolbar>
       </AppBar>
-      <AccountMenu
-        open={open}
-        greeting={greeting}
-        anchorEl={anchorEl}
-        handleClose={handleCloseMenu}
-        handleSelect={handleCloseMenu}
-      />
+
+      {visibleMenu === 'accountMenu' ? (
+        <AccountMenu
+          open={open}
+          greeting={greeting}
+          anchorEl={anchorEl}
+          handleClose={handleCloseMenu}
+          handleSelect={handleCloseMenu}
+        />
+      ) : null}
+
+      {visibleMenu === 'notificationMenu' ? (
+        <NotificationMenu
+          open={open}
+          anchorEl={anchorEl}
+          handleClose={handleCloseMenu}
+          handleSelect={handleCloseMenu}
+        />
+      ) : null}
     </div>
   );
 };
