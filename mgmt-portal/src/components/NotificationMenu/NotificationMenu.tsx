@@ -1,12 +1,29 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Badge from '@material-ui/core/Badge';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Chip from '@material-ui/core/Chip';
-import Divider from '@material-ui/core/Divider';
+
+import {
+  Grid,
+  Typography,
+  Menu,
+  MenuItem,
+  List,
+  Avatar,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  ListItemAvatar,
+  Select,
+  FormControl,
+  InputLabel,
+  Chip,
+  Divider,
+} from '@material-ui/core';
+
+import {
+  MailboxOpenUpOutline,
+  AlertRhombusOutline,
+  CheckUnderline,
+  CheckUnderlineCircleOutline,
+} from 'mdi-material-ui';
 
 import { useStyles } from './NotificationMenu.style';
 
@@ -17,8 +34,17 @@ type Props = {
   handleSelect: React.MouseEventHandler<HTMLLIElement> | undefined;
 };
 
-export const NotificationMenu = ({ anchorEl, handleClose, handleSelect }: Props) => {
+export const NotificationMenu = ({ anchorEl, handleClose }: Props) => {
   const classes = useStyles();
+  const [filter, setFilter] = React.useState('');
+
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setFilter(event.target.value as string);
+  };
+
+  // Reference https://material-ui.com/components/grid/
+  //  Need to separate notification card to own component
+
   return (
     <div className={classes.root}>
       <Menu
@@ -37,7 +63,7 @@ export const NotificationMenu = ({ anchorEl, handleClose, handleSelect }: Props)
           vertical: 'top',
           horizontal: 'right',
         }}
-        style={{ marginTop: 10 }}
+        className={classes.menuRoot}
       >
         <div className={classes.sectionTop}>
           <Grid container spacing={2} alignItems="center" wrap="nowrap">
@@ -56,6 +82,53 @@ export const NotificationMenu = ({ anchorEl, handleClose, handleSelect }: Props)
               <Typography variant="body2" className={classes.readLink}>
                 Mark all as read
               </Typography>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={12} className={classes.selectContainer}>
+              <FormControl variant="outlined" fullWidth={true}>
+                <InputLabel htmlFor="outlined-filter-native-simple">Filter</InputLabel>
+                <Select
+                  native
+                  value={filter}
+                  onChange={handleChange}
+                  label="filter"
+                  inputProps={{ name: 'filter', id: 'outlined-filter-native-simple' }}
+                  fullWidth={true}
+                >
+                  <option aria-label="None" value="" />
+                  <option value="all">All Notifications</option>
+                  <option value="unread">Unread</option>
+                  <option value="read">Read</option>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Divider className={classes.divider} />
+            </Grid>
+          </Grid>
+          {/* Card component */}
+          <Grid container spacing={2}>
+            <Grid item>
+              <Avatar>
+                <MailboxOpenUpOutline />
+              </Avatar>
+            </Grid>
+            <Grid item xs={12} sm container>
+              <Grid item xs container direction="column" spacing={2}>
+                <Grid item xs>
+                  <Typography variant="body1">Message Subject</Typography>
+                  <Typography variant="body2" style={{ textAlign: 'left', fontSize: '.8em' }}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eu est velit. Aenean mattis,
+                    lectus...
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography variant="body2" style={{ fontStyle: 'italic', fontSize: '.75em' }}>
+                    2min. Ago
+                  </Typography>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </div>

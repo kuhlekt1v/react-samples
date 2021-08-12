@@ -8,6 +8,12 @@ export const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: '100%',
     },
+    menuRoot: {
+      marginTop: 10,
+      '& .MuiList-root': {
+        maxWidth: '375px',
+      },
+    },
     sectionTop: {
       paddingTop: theme.spacing(3),
       paddingLeft: theme.spacing(2),
@@ -19,7 +25,7 @@ export const useStyles = makeStyles((theme: Theme) =>
       },
     },
     notificationChip: {
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.secondary.light,
       fontWeight: 800,
       textAlign: 'center',
       lineHeight: '100%',
@@ -36,6 +42,13 @@ export const useStyles = makeStyles((theme: Theme) =>
         color: theme.palette.primary.main,
         cursor: 'pointer',
       },
+    },
+    divider: {
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(2),
+    },
+    selectContainer: {
+      marginTop: theme.spacing(2),
     },
   }),
 );
