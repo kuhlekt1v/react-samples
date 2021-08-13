@@ -4,6 +4,39 @@ import { icons, NotificationCardItems } from './NotificationCardItems';
 
 import { Grid, Divider, Typography, Avatar } from '@material-ui/core';
 
+// Material colors.
+import red from '@material-ui/core/colors/red';
+import blue from '@material-ui/core/colors/blue';
+import teal from '@material-ui/core/colors/teal';
+import green from '@material-ui/core/colors/green';
+import yellow from '@material-ui/core/colors/yellow';
+
+const notificationStyle = (notification: string) => {
+  switch (notification) {
+    case 'message':
+      return {
+        backgroundColor: blue[200],
+      };
+    case 'complete':
+      return {
+        backgroundColor: green[200],
+      };
+    case 'attention':
+      return {
+        color: 'gray',
+        backgroundColor: yellow[200],
+      };
+    case 'start':
+      return {
+        backgroundColor: teal[200],
+      };
+    case 'stop':
+      return {
+        backgroundColor: red[200],
+      };
+  }
+};
+
 export const NotificationCard = () => {
   const classes = useStyles();
 
@@ -15,7 +48,7 @@ export const NotificationCard = () => {
         return (
           <Grid container spacing={2} key={item.id}>
             <Grid item>
-              <Avatar className={classes.message}>
+              <Avatar style={notificationStyle(item.category)}>
                 <Icon />
               </Avatar>
             </Grid>
