@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, AppBar, Toolbar, IconButton, Typography, PopperPlacementType } from '@material-ui/core';
+import { Avatar, AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 
 // Styles.
 import { useStyles, StyledAccountButton } from './Navbar.style';

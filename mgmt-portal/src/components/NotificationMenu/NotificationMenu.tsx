@@ -1,29 +1,7 @@
 import React from 'react';
 
-import {
-  Grid,
-  Typography,
-  Menu,
-  MenuItem,
-  List,
-  Avatar,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  ListItemAvatar,
-  Select,
-  FormControl,
-  InputLabel,
-  Chip,
-  Divider,
-} from '@material-ui/core';
-
-import {
-  MailboxOpenUpOutline,
-  AlertRhombusOutline,
-  CheckUnderline,
-  CheckUnderlineCircleOutline,
-} from 'mdi-material-ui';
+import { Grid, Typography, Menu, Select, FormControl, InputLabel, Chip, Divider } from '@material-ui/core';
+import { NotificationCard } from '../NotificationCard/NotificationCard';
 
 import { useStyles } from './NotificationMenu.style';
 
@@ -107,30 +85,7 @@ export const NotificationMenu = ({ anchorEl, handleClose }: Props) => {
               <Divider className={classes.divider} />
             </Grid>
           </Grid>
-          {/* Card component */}
-          <Grid container spacing={2}>
-            <Grid item>
-              <Avatar>
-                <MailboxOpenUpOutline />
-              </Avatar>
-            </Grid>
-            <Grid item xs={12} sm container>
-              <Grid item xs container direction="column" spacing={2}>
-                <Grid item xs>
-                  <Typography variant="body1">Message Subject</Typography>
-                  <Typography variant="body2" style={{ textAlign: 'left', fontSize: '.8em' }}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eu est velit. Aenean mattis,
-                    lectus...
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Typography variant="body2" style={{ fontStyle: 'italic', fontSize: '.75em' }}>
-                    2min. Ago
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
+          <NotificationCard />
         </div>
       </Menu>
     </div>

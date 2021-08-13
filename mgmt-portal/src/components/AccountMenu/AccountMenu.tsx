@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyles, StyledMenuItem } from './AccountMenu.style';
 import { icons, AccountMenuItems } from './AccountMenuItems';
-import { Menu, MenuList, ListItemText, ListItemIcon, Typography, Divider, Link, Popper } from '@material-ui/core';
+import { Menu, MenuList, ListItemText, ListItemIcon, Typography, Divider, Link } from '@material-ui/core';
 
 // https://berrydashboard.io/user/account-profile/profile1 for reference.
 
