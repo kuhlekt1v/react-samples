@@ -1,15 +1,15 @@
 import React from 'react';
 import clsx from 'clsx';
 import {
-  Avatar,
+  Link,
   AppBar,
+  Avatar,
+  Drawer,
   Toolbar,
+  Divider,
+  ListItem,
   IconButton,
   Typography,
-  Drawer,
-  Divider,
-  Link,
-  ListItem,
   ListItemText,
   ListItemIcon,
 } from '@material-ui/core';
@@ -20,13 +20,8 @@ import { icons, DrawerMenuItems } from './DrawerMenuItems';
 import { useStyles, StyledAccountButton } from './Navbar.style';
 
 // Material icons.
-import HomeIcon from '@material-ui/icons/Home';
-import WorkIcon from '@material-ui/icons/Work';
 import MenuIcon from '@material-ui/icons/Menu';
-import EmailIcon from '@material-ui/icons/Email';
 import SettingsIcon from '@material-ui/icons/Settings';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import AssessmentIcon from '@material-ui/icons/Assessment';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 
