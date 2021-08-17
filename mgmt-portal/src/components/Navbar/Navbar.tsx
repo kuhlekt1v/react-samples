@@ -1,12 +1,33 @@
 import React from 'react';
-import { Avatar, AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
+import clsx from 'clsx';
+import {
+  Avatar,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Drawer,
+  Divider,
+  Link,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+} from '@material-ui/core';
+
+import { icons, DrawerMenuItems } from './DrawerMenuItems';
 
 // Styles.
 import { useStyles, StyledAccountButton } from './Navbar.style';
 
 // Material icons.
+import HomeIcon from '@material-ui/icons/Home';
+import WorkIcon from '@material-ui/icons/Work';
 import MenuIcon from '@material-ui/icons/Menu';
+import EmailIcon from '@material-ui/icons/Email';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 
 // Components
@@ -14,9 +35,17 @@ import { InputSearch } from '../Input/InputSearch';
 import { AccountMenu } from '../AccountMenu/AccountMenu';
 import { NotificationMenu } from '../NotificationMenu/NotificationMenu';
 
-export const Navbar = () => {
+type Props = {
+  open: Boolean;
+  onOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const Navbar = ({ open, onOpenChange }: Props) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  const [expandedDrawer, setExpandedDrawer] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+
   const [visibleMenu, setVisibleMenu] = React.useState<string>('');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -39,24 +68,49 @@ export const Navbar = () => {
     setVisibleMenu(event.currentTarget.id);
     setAnchorEl(anchorEl ? null : event.currentTarget);
     setGreeting(greeting);
-    setOpen(!open);
+    setMenuOpen(!menuOpen);
   };
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
-    setOpen(false);
+    setMenuOpen(false);
   };
 
-  // Close account menu on window resize.
-  window.addEventListener('resize', handleCloseMenu);
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+    onOpenChange(true);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+    onOpenChange(false);
+  };
+
+  const handleExpandedDrawer = () => {
+    if (window.innerWidth < 960) {
+      setExpandedDrawer(true);
+    } else {
+      setExpandedDrawer(false);
+    }
+  };
+
+  window.addEventListener('resize', () => {
+    handleCloseMenu();
+    handleExpandedDrawer();
+  });
 
   return (
     <div className={classes.root}>
       {/* Navigation bar. */}
-      <AppBar className={classes.appBar}>
+      <AppBar className={clsx(classes.appBar, { [classes.appBarShift]: drawerOpen })} position="fixed">
         <Toolbar>
           {/* Title area. */}
-          <IconButton edge="start" className={classes.menuButton} aria-label="open drawer">
+          <IconButton
+            edge="start"
+            className={clsx(classes.menuButton, drawerOpen && classes.hide)}
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+          >
             <MenuIcon className={classes.largeIcon} />
           </IconButton>
           <Typography variant="h4" className={classes.title} noWrap>
@@ -89,10 +143,41 @@ export const Navbar = () => {
           </div>
         </Toolbar>
       </AppBar>
+      {/* Drawer side menu. */}
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={drawerOpen}
+        classes={{ paper: classes.drawerPaper }}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        {DrawerMenuItems.map((item) => {
+          const Icon = icons[item.icon];
+          return (
+            <Link
+              href={item.path}
+              style={{ textDecoration: 'none', display: !expandedDrawer && !item.alwaysVisible ? 'none' : '' }}
+            >
+              <ListItem button key={item.label} className={classes.drawerLink}>
+                <ListItemIcon>
+                  <Icon />
+                </ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItem>
+            </Link>
+          );
+        })}
+        <Divider />
+      </Drawer>
 
       {visibleMenu === 'accountMenu' ? (
         <AccountMenu
-          open={open}
+          open={menuOpen}
           greeting={greeting}
           anchorEl={anchorEl}
           handleClose={handleCloseMenu}
@@ -102,7 +187,7 @@ export const Navbar = () => {
 
       {visibleMenu === 'notificationMenu' ? (
         <NotificationMenu
-          open={open}
+          open={menuOpen}
           anchorEl={anchorEl}
           handleClose={handleCloseMenu}
           handleSelect={handleCloseMenu}

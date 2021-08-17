@@ -1,4 +1,4 @@
-import { createTheme } from '@material-ui/core/styles';
+import { createStyles, createTheme, makeStyles, Theme } from '@material-ui/core/styles';
 
 export const theme = createTheme({
   palette: {
@@ -31,3 +31,24 @@ export const theme = createTheme({
     fontFamily: ['Montserrat', 'sans-serif'].join(','),
   },
 });
+
+const drawerWidth = 240;
+
+export const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    content: {
+      padding: theme.spacing(3),
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+    },
+    contentShift: {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: drawerWidth,
+    },
+  }),
+);

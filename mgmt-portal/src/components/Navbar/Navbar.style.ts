@@ -2,6 +2,10 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import styled from 'styled-components';
 
+import blueGrey from '@material-ui/core/colors/blueGrey';
+
+const drawerWidth = 240;
+
 export const StyledAccountButton = styled(ButtonBase)`
   &.MuiButtonBase-root {
     display: flex;
@@ -26,6 +30,18 @@ export const useStyles = makeStyles((theme: Theme) =>
     appBar: {
       background: '#fff',
       zIndex: 0,
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+    },
+    appBarShift: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -33,6 +49,9 @@ export const useStyles = makeStyles((theme: Theme) =>
       '&:hover': {
         backgroundColor: 'inherit',
       },
+    },
+    hide: {
+      display: 'none',
     },
     largeIcon: {
       fontSize: '2.25rem',
@@ -95,6 +114,46 @@ export const useStyles = makeStyles((theme: Theme) =>
       height: '30px',
       borderRadius: '8px',
       backgroundColor: theme.palette.primary.dark,
+    },
+
+    // Drawer menu.
+    drawer: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    drawerLink: {
+      color: blueGrey[600],
+      textDecoration: 'none',
+      '& .MuiSvgIcon-root': {
+        fill: blueGrey[600],
+      },
+    },
+    drawerHeader: {
+      display: 'flex',
+      alignItems: 'center',
+      padding: theme.spacing(0, 1),
+      // necessary for content to be below app bar
+      ...theme.mixins.toolbar,
+      justifyContent: 'flex-end',
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      marginLeft: -drawerWidth,
+    },
+    contentShift: {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
     },
   }),
 );

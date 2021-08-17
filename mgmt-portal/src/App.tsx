@@ -1,5 +1,6 @@
 import React from 'react';
-import { theme } from './App.style';
+import clsx from 'clsx';
+import { theme, useStyles } from './App.style';
 import { ThemeProvider } from '@material-ui/core';
 
 // Pages.
@@ -12,6 +13,9 @@ import { Navbar } from './components/Navbar/Navbar';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 const App = () => {
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
@@ -20,9 +24,15 @@ const App = () => {
           <>
             <br />
             <br />
-            <Navbar />
-            <Route path="/home" component={HomePage} exact />
-            <Route path="/account-settings" component={AccountPage} exact />
+            <Navbar open={open} onOpenChange={setOpen} />
+            <main
+              className={clsx(classes.content, {
+                [classes.contentShift]: open,
+              })}
+            >
+              <Route path="/home" component={HomePage} exact />
+              <Route path="/account-settings" component={AccountPage} exact />
+            </main>
           </>
         </Switch>
       </BrowserRouter>
