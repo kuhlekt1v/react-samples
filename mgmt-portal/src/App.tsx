@@ -11,6 +11,7 @@ import { AccountPage } from './pages/Account/AccountPage';
 // Components.
 import { Navbar } from './components/Navbar/Navbar';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { WorkbookPage } from './pages/Workbook/WorkbookPage';
 
 const App = () => {
   const classes = useStyles();
@@ -32,6 +33,7 @@ const App = () => {
             >
               <Route path="/home" component={HomePage} exact />
               <Route path="/account-settings" component={AccountPage} exact />
+              <Route path="/workbook" component={WorkbookPage} exact />
             </main>
           </>
         </Switch>

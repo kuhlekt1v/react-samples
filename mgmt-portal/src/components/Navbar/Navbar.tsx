@@ -37,11 +37,13 @@ type Props = {
 
 export const Navbar = ({ open, onOpenChange }: Props) => {
   const classes = useStyles();
+
   const [menuOpen, setMenuOpen] = React.useState(false);
-  const [expandedDrawer, setExpandedDrawer] = React.useState(false);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [expandedDrawer, setExpandedDrawer] = React.useState(false);
 
   const [visibleMenu, setVisibleMenu] = React.useState<string>('');
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   let [greeting, setGreeting] = React.useState<string>('Welcome');

@@ -23,7 +23,7 @@ export interface IMenuItem {
 
 export const DrawerMenuItems: IMenuItem[] = [
   { label: 'Home', path: './home', icon: 'HomeIcon', alwaysVisible: true },
-  { label: 'Workbook', path: '#', icon: 'WorkIcon', alwaysVisible: true },
+  { label: 'Workbook', path: './workbook', icon: 'WorkIcon', alwaysVisible: true },
   { label: 'Records', path: '#', icon: 'AssessmentIcon', alwaysVisible: true },
   { label: 'Notifications', path: '#', icon: 'EmailIcon', alwaysVisible: false },
   { label: 'Settings', path: './account-settings', icon: 'SettingsIcon', alwaysVisible: false },
