@@ -29,14 +29,22 @@ const EditableCell = ({ value: initialValue, row: { index }, column: { id } }: a
 
   const onBlur = () => {
     console.log(value);
-    // updateMyData(index, id, value);
+    // updateMyData(index, id, value); // This is where we will pass data to backend
   };
 
+  // Sync initial value with state if changed externally.
   React.useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
 
-  return <input value={value} onChange={onChange} onBlur={onBlur} />;
+  return (
+    <input
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      style={{ fontSize: '1rem', padding: 0, margin: 0, border: 0 }} // Move styling to external style sheet.
+    />
+  );
 };
 
 const defaultColumn = {
