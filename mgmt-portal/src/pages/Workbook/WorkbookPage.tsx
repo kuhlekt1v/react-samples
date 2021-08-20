@@ -1,15 +1,10 @@
 import React, { useMemo } from 'react';
-import { useTable, Column } from 'react-table';
+import { Column } from 'react-table';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { EditableTable } from '../../components/EditableTable/EditableTable';
 
 // Reference: https://codesandbox.io/s/cranky-gauss-806fd?file=/src/App.js:1526-1573
+// Reference: https://react-table.tanstack.com/
 
 interface IData {
   partNumber: string;
@@ -19,37 +14,6 @@ interface IData {
   recvDate: string;
   stockDate: string;
 }
-
-const EditableCell = ({ value: initialValue, row: { index }, column: { id } }: any) => {
-  const [value, setValue] = React.useState(initialValue);
-
-  const onChange = (e: any) => {
-    setValue(e.target.value);
-  };
-
-  const onBlur = () => {
-    console.log(value);
-    // updateMyData(index, id, value); // This is where we will pass data to backend
-  };
-
-  // Sync initial value with state if changed externally.
-  React.useEffect(() => {
-    setValue(initialValue);
-  }, [initialValue]);
-
-  return (
-    <input
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      style={{ fontSize: '1rem', padding: 0, margin: 0, border: 0 }} // Move styling to external style sheet.
-    />
-  );
-};
-
-const defaultColumn = {
-  Cell: EditableCell,
-};
 
 export const WorkbookPage = () => {
   const columns: Column<IData>[] = useMemo(
@@ -68,9 +32,6 @@ export const WorkbookPage = () => {
     ],
     [],
   );
-
-  // Random date for sample.
-  let randDate = new Date(+new Date() - Math.floor(Math.random() * 10000000000)).toLocaleDateString('en-US');
 
   const data: IData[] = useMemo(
     () => [
@@ -94,41 +55,5 @@ export const WorkbookPage = () => {
     [],
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
-    columns,
-    data,
-    defaultColumn,
-  });
-
-  return (
-    <TableContainer component={Paper}>
-      <Table aria-label="simple-table" {...getTableProps()}>
-        <TableHead>
-          {headerGroups.map((headerGroup) => (
-            <TableRow {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <TableCell style={{ fontWeight: 'bold' }} {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableHead>
-
-        <TableBody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-
-            return (
-              <TableRow {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>;
-                })}
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+  return <EditableTable columns={columns} data={data} />;
 };
