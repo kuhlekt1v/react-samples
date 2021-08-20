@@ -1,5 +1,4 @@
 import React from 'react';
-import { useStyles } from './NotificationCard.style';
 import { icons, NotificationCardItems } from './NotificationCardItems';
 
 import { Grid, Divider, Typography, Avatar } from '@material-ui/core';
@@ -38,8 +37,6 @@ const notificationStyle = (notification: string) => {
 };
 
 export const NotificationCard = () => {
-  const classes = useStyles();
-
   return (
     <>
       {NotificationCardItems.map((item) => {
