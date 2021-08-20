@@ -79,9 +79,9 @@ export const EditableTable = ({ columns, data, setData }: any) => {
     setData(newData);
   };
 
-  const addUserHandler = () => {
-    // const newData = data.concat([user]);
-    // setData(newData);
+  const addJobHandler = (job: any) => {
+    const newData = data.concat([job]);
+    setData(newData);
   };
 
   return (
@@ -89,14 +89,14 @@ export const EditableTable = ({ columns, data, setData }: any) => {
       <TableToolbar
         numSelected={Object.keys(selectedRowIds).length}
         deleteItemHandler={deleteItemHandler}
-        addUserHandler={addUserHandler}
+        addJobHandler={addJobHandler}
         preGlobalFilteredRows={preGlobalFilteredRows}
         setGlobalFilter={setGlobalFilter}
         globalFilter={globalFilter}
       />
       <Table {...getTableProps()}>
         <TableHead>
-          {headerGroups.map((headerGroup, i) => (
+          {headerGroups.map((headerGroup) => (
             <TableRow {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <TableCell

@@ -4,7 +4,8 @@ import clsx from 'clsx';
 import DeleteIcon from '@material-ui/icons/Delete';
 import GlobalFilter from './GlobalFilter';
 import IconButton from '@material-ui/core/IconButton';
-import { lighten, makeStyles } from '@material-ui/core/styles';
+import { lighten, makeStyles, Theme } from '@material-ui/core/styles';
+import { AddJobDialogue } from './AddJobDialogue';
 import PropTypes from 'prop-types';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -13,28 +14,22 @@ import { Row } from 'react-table';
 
 type Props = {
   numSelected: number;
-  addUserHandler: any;
+  addJobHandler: any;
   deleteItemHandler: () => void;
   setGlobalFilter: any;
   preGlobalFilteredRows: Row<object>[];
   globalFilter: string;
 };
 
-const useToolbarStyles = makeStyles((theme) => ({
+const useToolbarStyles = makeStyles((theme: Theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
   },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
+  highlight: {
+    color: theme.palette.secondary.dark,
+    backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+  },
   title: {
     flex: '1 1 100%',
   },
@@ -42,7 +37,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 export const TableToolbar = ({
   numSelected,
-  addUserHandler,
+  addJobHandler,
   deleteItemHandler,
   preGlobalFilteredRows,
   setGlobalFilter,
@@ -56,7 +51,7 @@ export const TableToolbar = ({
         [classes.highlight]: numSelected > 0,
       })}
     >
-      {/* <AddUserDialog addUserHandler={addUserHandler} /> */}
+      <AddJobDialogue addJobHandler={addJobHandler} />
       {numSelected > 0 ? (
         <Typography className={classes.title} color="inherit" variant="subtitle1">
           {numSelected} selected
