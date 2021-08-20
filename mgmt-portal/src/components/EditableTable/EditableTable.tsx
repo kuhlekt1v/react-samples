@@ -1,17 +1,22 @@
-import React, { useMemo } from 'react';
-import { useTable, Column } from 'react-table';
+// Material UI components.
+import React from 'react';
+
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+//import TableToolbar from './TableToolbar';
+import { useGlobalFilter, useRowSelect, useSortBy, useTable } from 'react-table';
+
 import { useStyles } from './EditableTable.style';
 
 import { EditableCell } from '../../components/EditableCell/EditableCell';
-
-// Material UI components.
-import Table from '@material-ui/core/Table';
-import Paper from '@material-ui/core/Paper';
-import TableRow from '@material-ui/core/TableRow';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableContainer from '@material-ui/core/TableContainer';
+import { TableToolbar } from './TableToolbar';
+import { IndeterminateCheckbox } from '../IndeterminateCheckbox';
+import { Paper } from '@material-ui/core';
 
 // Reference: https://codesandbox.io/s/cranky-gauss-806fd?file=/src/App.js:1526-1573
 // Reference: https://react-table.tanstack.com/
@@ -20,28 +25,101 @@ const defaultColumn = {
   Cell: EditableCell,
 };
 
-export const EditableTable = ({ columns, data }: any) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
-    columns,
-    data,
-    defaultColumn,
-  });
+export const EditableTable = ({ columns, data, setData }: any) => {
+  const classes = useStyles();
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+    state: { selectedRowIds, globalFilter },
+  } = useTable(
+    {
+      columns,
+      data,
+      defaultColumn,
+    },
+    useGlobalFilter,
+    useSortBy,
+    useRowSelect,
+    (hooks) => {
+      hooks.allColumns.push((columns) => [
+        {
+          id: 'selection',
+          // Select all.
+          Header: ({ getToggleAllRowsSelectedProps }) => (
+            <div>
+              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+            </div>
+          ),
+          // Select individual cell.
+          Cell: ({ row }) => (
+            <div>
+              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+            </div>
+          ),
+        },
+        ...columns,
+      ]);
+    },
+  );
+
+  const removeByIndexs = (array: any, indexs: any) => array.filter((_: any, i: any) => !indexs.includes(i));
+
+  const deleteItemHandler = () => {
+    const newData = removeByIndexs(
+      data,
+      Object.keys(selectedRowIds).map((x) => parseInt(x, 10)),
+    );
+
+    setData(newData);
+  };
+
+  const addUserHandler = () => {
+    // const newData = data.concat([user]);
+    // setData(newData);
+  };
 
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="simple-table" {...getTableProps()}>
+      <TableToolbar
+        numSelected={Object.keys(selectedRowIds).length}
+        deleteItemHandler={deleteItemHandler}
+        addUserHandler={addUserHandler}
+        preGlobalFilteredRows={preGlobalFilteredRows}
+        setGlobalFilter={setGlobalFilter}
+        globalFilter={globalFilter}
+      />
+      <Table {...getTableProps()}>
         <TableHead>
-          {headerGroups.map((headerGroup) => (
+          {headerGroups.map((headerGroup, i) => (
             <TableRow {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <TableCell {...column.getHeaderProps()}>{column.render('Header')}</TableCell>
+                <TableCell
+                  {...(column.id === 'selection'
+                    ? column.getHeaderProps()
+                    : column.getHeaderProps(column.getSortByToggleProps()))}
+                >
+                  {column.render('Header')}
+                  {column.id !== 'selection' ? (
+                    <TableSortLabel
+                      active={column.isSorted}
+                      // react-table has a unsorted state which is not treated here
+                      direction={column.isSortedDesc ? 'desc' : 'asc'}
+                    />
+                  ) : null}
+                </TableCell>
               ))}
             </TableRow>
           ))}
         </TableHead>
 
         <TableBody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {rows.map((row, i) => {
             prepareRow(row);
 
             return (

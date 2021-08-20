@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Column } from 'react-table';
 
+import { WorkbookData } from './WorkbookData';
 import { EditableTable } from '../../components/EditableTable/EditableTable';
 
 // Reference: https://codesandbox.io/s/cranky-gauss-806fd?file=/src/App.js:1526-1573
@@ -18,42 +19,31 @@ interface IData {
 export const WorkbookPage = () => {
   const columns: Column<IData>[] = useMemo(
     () => [
-      {
-        Header: 'Sample Machine Name',
-        columns: [
-          { Header: 'Part #', accessor: 'partNumber' },
-          { Header: 'Job #', accessor: 'jobNumber' },
-          { Header: 'Description', accessor: 'description' },
-          { Header: 'Operator', accessor: 'operator' },
-          { Header: 'Recv. Date', accessor: 'recvDate' },
-          { Header: 'Stk. Date', accessor: 'stockDate' },
-        ],
-      },
+      { Header: 'Part #', accessor: 'partNumber' },
+      { Header: 'Job #', accessor: 'jobNumber' },
+      { Header: 'Description', accessor: 'description' },
+      { Header: 'Operator', accessor: 'operator' },
+      { Header: 'Recv. Date', accessor: 'recvDate' },
+      { Header: 'Stk. Date', accessor: 'stockDate' },
     ],
     [],
   );
 
-  const data: IData[] = useMemo(
-    () => [
-      {
-        partNumber: 'ABCD12345',
-        jobNumber: 12345,
-        description: 'Part One',
-        operator: 'Joe',
-        recvDate: '01/01/2021',
-        stockDate: '01/01/2021',
-      },
-      {
-        partNumber: 'EFGH67890',
-        jobNumber: 67890,
-        description: 'Part Two',
-        operator: 'Jane',
-        recvDate: '02/02/2021',
-        stockDate: '02/02/2021',
-      },
-    ],
-    [],
-  );
+  const [data, setData] = React.useState(React.useMemo(() => WorkbookData, []));
 
-  return <EditableTable columns={columns} data={data} />;
+  const updateData = (rowIndex: any, columnId: any, value: any) => {
+    setData((old) =>
+      old.map((row, index) => {
+        if (index === rowIndex) {
+          return {
+            ...old[rowIndex],
+            [columnId]: value,
+          };
+        }
+        return row;
+      }),
+    );
+  };
+
+  return <EditableTable columns={columns} data={data} setData={setData} updateData={updateData} />;
 };

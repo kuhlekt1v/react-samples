@@ -16,7 +16,7 @@ export const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const EditableCell = ({ value: initialValue, row: { index }, column: { id } }: any) => {
+export const EditableCell = ({ value: initialValue, row: { index }, column: { id }, updateData }: any) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(initialValue);
 
@@ -27,6 +27,7 @@ export const EditableCell = ({ value: initialValue, row: { index }, column: { id
   const onBlur = () => {
     console.log(value);
     // updateMyData(index, id, value); // This is where we will pass data to backend
+    updateData(index, id, value);
   };
 
   // Sync initial value with state if changed externally.
