@@ -62,7 +62,7 @@ export const useStyles = makeStyles((theme: Theme) =>
     title: {
       color: theme.palette.primary.dark,
       fontWeight: 500,
-      fontFamily: '"Nanum Gothic", sans-serif',
+      fontFamily: '"Nanum Gothic", sans-serif !important',
       display: 'none',
       [theme.breakpoints.up('sm')]: {
         display: 'block',
